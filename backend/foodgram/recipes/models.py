@@ -1,4 +1,3 @@
-from ctypes.wintypes import tagSIZE
 from django.contrib.auth import get_user_model
 
 from django.db import models
@@ -34,4 +33,3 @@ class Ingredients(models.Model):
     )
     quantity = models.PositiveSmallIntegerField(verbose_name='Количество')
     measurement_unit = models.CharField(max_length=5, verbose_name='ед.изм.')
-
