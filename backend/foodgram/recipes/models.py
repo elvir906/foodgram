@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.db.models import constraints
 
 
 User = get_user_model()
@@ -41,19 +42,26 @@ class Ingredients(models.Model):
     name = models.CharField(
         max_length=150, verbose_name='Название ингредиента'
     )
-    quantity = models.PositiveSmallIntegerField(verbose_name='Количество')
+    quantity = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(
+                 1, message='Минимальное количество ингредиента д.б. 1'
+            ),
+        ],
+        verbose_name='Количество'
+    )
     measurement_unit = models.CharField(max_length=10, verbose_name='ед.изм.')
 
     class Meta:
         ordering = ['name']
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
-        constraints = [
-            models.UniqueConstraint(
+        constraints = (
+            constraints.UniqueConstraint(
                 fields=['name',  'measurement_unit'],
-                name='uniqueness of ingredient and measurement'
-            )
-        ]
+                name='uniqueness of food and measurement unit'
+            ),
+        )
 
     def __str__(self):
         return self.name
@@ -114,12 +122,12 @@ class Favorite(models.Model):
         ordering = ['-id']
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
-        constraints = [
-            models.UniqueConstraint(
+        constraints = (
+            constraints.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='uniqueness of favorite recipe and user'
-            )
-        ]
+                name='uniqueness of user and favorite recipes'
+            ),
+        )
 
 
 class Cart(models.Model):
@@ -140,7 +148,9 @@ class Cart(models.Model):
         ordering = ['-id']
         verbose_name = 'Корзина'
         verbose_name_plural = 'В корзине'
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'recipe'],
-                                    name='uniqueness of cart and user')
-        ]
+        constraints = (
+            constraints.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='uniqueness of user and foods in cart'
+            ),
+        )
