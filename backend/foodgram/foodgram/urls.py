@@ -1,10 +1,8 @@
 from django.contrib import admin
-from django.urls import path
-# from django.conf import settings
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('recipes.urls', namespace='recipes')),
-    # path('auth/', include('users.urls', namespace='users')),
-    # path('auth/', include('django.contrib.auth.urls')),
+    path('api/', include('users.urls', namespace='users')),
+    path('api/', include('api.urls', namespace='api')),
 ]
