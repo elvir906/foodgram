@@ -16,7 +16,7 @@ from recipes.models import (
     IngredientsQuantity
 )
 from users.models import Follow
-from users.serializers import UsresCustomSerializer
+from users.serializers import UsersCustomSerializer
 
 
 class IngredientsSerializer(ModelSerializer):
@@ -48,7 +48,7 @@ class IngredientsQuantitySerializer(ModelSerializer):
 
 
 class RecipesSerializer(ModelSerializer):
-    author = UsresCustomSerializer(read_only=True)
+    author = UsersCustomSerializer(read_only=True)
     ingredients = IngredientsQuantitySerializer(
         source='ingredientamount_set',
         many=True,

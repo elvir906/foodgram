@@ -12,7 +12,7 @@ from users.models import Follow
 User = get_user_model()
 
 
-class UsresCustomSerializer(UserSerializer):
+class UsersCustomSerializer(UserSerializer):
     is_subscriber = serializers.SerializerMethodField()
 
     class Meta:

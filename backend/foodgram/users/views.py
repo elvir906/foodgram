@@ -12,7 +12,7 @@ from users.models import Follow
 User = get_user_model()
 
 
-class CustomUserViewSet(UserViewSet):
+class UsersCustomViewSet(UserViewSet):
 
     @action(detail=True, permission_classes=[IsAuthenticated])
     def subscribe(self, request, id=None):
