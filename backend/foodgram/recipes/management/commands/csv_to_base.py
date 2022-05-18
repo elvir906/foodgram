@@ -60,7 +60,6 @@ class Command(BaseCommand):
 
         # по всем таблицам из списка...
         for table in tables:
-            print(table)
 
             # создаётся сединение connection с базой sqlite3
             connection = sqlite3.connect(db_sqlite3)
@@ -86,7 +85,7 @@ class Command(BaseCommand):
                 fieldsline = ''
                 answer_sign_line = ''
 
-                # dr.fieldnames считывает имя столбца из csv таблицы, 
+                # dr.fieldnames считывает имя столбца из csv таблицы,
                 # которая находится в переменной dr
                 # тут просто собираются имена через запятую.
                 for fields in dr.fieldnames:
