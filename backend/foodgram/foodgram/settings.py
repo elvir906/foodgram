@@ -7,7 +7,7 @@ SECRET_KEY = '(y1n)w=d6oqawsa#ayxej%d90_38!pyk56fh2*5i9bg%&%g6=f'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 INSTALLED_APPS = [
     'recipes.apps.RecipesConfig',
@@ -111,15 +111,18 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
 
     'DEFAULT_PAGINATION_CLASS':
-    'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+        'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 5,
 }
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
     'SERIALIZERS': {
-        'user_create': 'users.serializers.UsersCreateCustomSerializer',
+        # 'user_create': 'djoser.serializers.UserCreateSerializer',
+        # 'user': 'djoser.serializers.UserSerializer',
+        # 'current_user': 'djoser.serializers.UserSerializer',
+        'user_create': 'users.serializers.UsersCustomCreateSerializer',
         'user': 'users.serializers.UsersCustomSerializer',
         'current_user': 'users.serializers.UsersCustomSerializer',
     },
