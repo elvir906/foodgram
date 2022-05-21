@@ -65,7 +65,7 @@ class RecipesViewSet(ModelViewSet):
 
     @action(detail=True, methods=['get', 'delete'],
             permission_classes=[IsAuthenticated])
-    def cart(self, request, pk=None):
+    def shopping_cart(self, request, pk=None):
         if request.method == 'GET':
             return self.add_obj(Cart, request.user, pk)
         elif request.method == 'DELETE':
@@ -74,7 +74,7 @@ class RecipesViewSet(ModelViewSet):
 
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])
-    def download_cart(self, request):
+    def download_shopping_cart(self, request):
         final_list = {}
         ingredients = IngredientsQuantity.objects.filter(
             recipe__cart__user=request.user).values_list(

@@ -102,7 +102,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
-        'rest_framework.authentication.TokenAuthentication',
+        ('rest_framework.authentication.TokenAuthentication',),
 
     'DEFAULT_FILTER_BACKENDS':
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -119,9 +119,6 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
     'SERIALIZERS': {
-        # 'user_create': 'djoser.serializers.UserCreateSerializer',
-        # 'user': 'djoser.serializers.UserSerializer',
-        # 'current_user': 'djoser.serializers.UserSerializer',
         'user_create': 'users.serializers.UsersCustomCreateSerializer',
         'user': 'users.serializers.UsersCustomSerializer',
         'current_user': 'users.serializers.UsersCustomSerializer',
