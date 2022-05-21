@@ -5,9 +5,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '(y1n)w=d6oqawsa#ayxej%d90_38!pyk56fh2*5i9bg%&%g6=f'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'recipes.apps.RecipesConfig',
@@ -105,10 +105,10 @@ REST_FRAMEWORK = {
         ('rest_framework.authentication.TokenAuthentication',),
 
     'DEFAULT_FILTER_BACKENDS':
-        'django_filters.rest_framework.DjangoFilterBackend',
+        ('django_filters.rest_framework.DjangoFilterBackend',),
 
     'DEFAULT_PERMISSION_CLASSES':
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
 
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
