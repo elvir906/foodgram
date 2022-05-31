@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from api.pagination import LimitPageNumberPagination
 from api.filters import AuthorAndTagFilter, IngredientSearchFilter
 from api.models import (
     Cart,
@@ -20,7 +21,7 @@ from api.models import (
 )
 from api.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from api.serializers import (
-    CropRecipeSerializer, 
+    CropRecipeSerializer,
     IngredientSerializer,
     RecipeSerializer,
     TagSerializer
@@ -44,6 +45,7 @@ class IngredientsViewSet(ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    pagination_class = LimitPageNumberPagination
     filter_class = AuthorAndTagFilter
     permission_classes = [IsOwnerOrReadOnly]
 
