@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from rest_framework import serializers
+from rest_framework.serializers import (
+    EmailField,
+    CharField,
+    SerializerMethodField
+)
 from rest_framework.validators import UniqueValidator
 
 from users.models import Follow
@@ -9,9 +13,9 @@ User = get_user_model()
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
-    email = serializers.EmailField(
+    email = EmailField(
         validators=[UniqueValidator(queryset=User.objects.all())])
-    username = serializers.CharField(
+    username = CharField(
         validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
@@ -28,7 +32,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
 
 class CustomUserSerializer(UserSerializer):
-    is_subscribed = serializers.SerializerMethodField()
+    is_subscribed = SerializerMethodField()
 
     class Meta:
         model = User

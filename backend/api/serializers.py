@@ -1,6 +1,11 @@
 from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import serializers
+from rest_framework.serializers import (
+    ModelSerializer,
+    ReadOnlyField,
+    SerializerMethodField,
+    ValidationError
+)
 from rest_framework.validators import UniqueTogetherValidator
 
 from api.models import Ingredient, IngredientAmount, Recipe, Tag
@@ -8,22 +13,22 @@ from users.models import Follow
 from users.serializers import CustomUserSerializer
 
 
-class TagSerializer(serializers.ModelSerializer):
+class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
 
 
-class IngredientSerializer(serializers.ModelSerializer):
+class IngredientSerializer(ModelSerializer):
     class Meta:
         model = Ingredient
         fields = '__all__'
 
 
-class IngredientAmountSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='ingredient.id')
-    name = serializers.ReadOnlyField(source='ingredient.name')
-    measurement_unit = serializers.ReadOnlyField(
+class IngredientAmountSerializer(ModelSerializer):
+    id = ReadOnlyField(source='ingredient.id')
+    name = ReadOnlyField(source='ingredient.name')
+    measurement_unit = ReadOnlyField(
         source='ingredient.measurement_unit'
     )
 
@@ -38,7 +43,7 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
         ]
 
 
-class RecipeSerializer(serializers.ModelSerializer):
+class RecipeSerializer(ModelSerializer):
     image = Base64ImageField()
     tags = TagSerializer(read_only=True, many=True)
     author = CustomUserSerializer(read_only=True)
@@ -47,8 +52,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
-    is_favorited = serializers.SerializerMethodField()
-    is_in_shopping_cart = serializers.SerializerMethodField()
+    is_favorited = SerializerMethodField()
+    is_in_shopping_cart = SerializerMethodField()
 
     class Meta:
         model = Recipe
@@ -71,20 +76,20 @@ class RecipeSerializer(serializers.ModelSerializer):
     def validate(self, data):
         ingredients = self.initial_data.get('ingredients')
         if not ingredients:
-            raise serializers.ValidationError({
-                'ingredients': 'Нужен хоть один ингридиент для рецепта'})
+            raise ValidationError({
+                'ingredients':
+                'Для рецепта необходим хотя бы один ингредиент'})
         ingredient_list = []
         for ingredient_item in ingredients:
             ingredient = get_object_or_404(Ingredient,
                                            id=ingredient_item['id'])
             if ingredient in ingredient_list:
-                raise serializers.ValidationError('Ингридиенты должны '
-                                                  'быть уникальными')
+                raise ValidationError('Ингридиенты должны быть уникальными')
             ingredient_list.append(ingredient)
             if int(ingredient_item['amount']) < 0:
-                raise serializers.ValidationError({
-                    'ingredients': ('Убедитесь, что значение количества '
-                                    'ингредиента больше 0')
+                raise ValidationError({
+                    'ingredients':
+                    'Значение количества ингредиента должно больше 0'
                 })
         data['ingredients'] = ingredients
         return data
@@ -122,7 +127,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         return instance
 
 
-class CropRecipeSerializer(serializers.ModelSerializer):
+class CropRecipeSerializer(ModelSerializer):
     image = Base64ImageField()
 
     class Meta:
@@ -131,15 +136,15 @@ class CropRecipeSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'name', 'image', 'cooking_time')
 
 
-class FollowSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='author.id')
-    email = serializers.ReadOnlyField(source='author.email')
-    username = serializers.ReadOnlyField(source='author.username')
-    first_name = serializers.ReadOnlyField(source='author.first_name')
-    last_name = serializers.ReadOnlyField(source='author.last_name')
-    is_subscribed = serializers.SerializerMethodField()
-    recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.SerializerMethodField()
+class FollowSerializer(ModelSerializer):
+    id = ReadOnlyField(source='author.id')
+    email = ReadOnlyField(source='author.email')
+    username = ReadOnlyField(source='author.username')
+    first_name = ReadOnlyField(source='author.first_name')
+    last_name = ReadOnlyField(source='author.last_name')
+    is_subscribed = SerializerMethodField()
+    recipes = SerializerMethodField()
+    recipes_count = SerializerMethodField()
 
     class Meta:
         model = Follow

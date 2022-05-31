@@ -6,7 +6,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.pagination import LimitPageNumberPagination
 from api.serializers import FollowSerializer
 from users.models import Follow
 
@@ -14,7 +13,6 @@ User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
-    pagination_class = LimitPageNumberPagination
 
     @action(detail=True, methods=['post'],
             permission_classes=[IsAuthenticated])
@@ -25,11 +23,12 @@ class CustomUserViewSet(UserViewSet):
         if request.method == 'POST':
             if user == author:
                 return Response({
-                    'errors': 'Вы не можете подписываться на самого себя'
+                    'errors':
+                    'Невозможно применить данное действие к своему аккаунту'
                 }, status=status.HTTP_400_BAD_REQUEST)
             if Follow.objects.filter(user=user, author=author).exists():
                 return Response({
-                    'errors': 'Вы уже подписаны на данного пользователя'
+                    'errors': 'Вы УЖЕ подписаны на этого аватора'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             follow = Follow.objects.create(user=user, author=author)
@@ -44,7 +43,8 @@ class CustomUserViewSet(UserViewSet):
         author = get_object_or_404(User, id=id)
         if user == author:
             return Response({
-                'errors': 'Вы не можете отписываться от самого себя'
+                'errors':
+                'Невозможно применить данное действие к своему аккаунту'
             }, status=status.HTTP_400_BAD_REQUEST)
         follow = Follow.objects.filter(user=user, author=author)
         if follow.exists():
@@ -52,7 +52,7 @@ class CustomUserViewSet(UserViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response({
-            'errors': 'Вы уже отписались'
+            'errors': 'Вы УЖЕ отписаны от этого автора'
         }, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, permission_classes=[IsAuthenticated])
