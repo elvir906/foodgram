@@ -8,7 +8,7 @@ services:
       - ./.env
 
   backend:
-    image: davletelvir/foodgram_backend:v3.7
+    image: davletelvir/foodgram_backend:latest
     restart: always
     volumes:
       - static_value:/code/static/
