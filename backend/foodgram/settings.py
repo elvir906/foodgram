@@ -2,11 +2,11 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.environ.get('DJ_SECRET_KEY'),
+SECRET_KEY = '(y1n)w=d6oqawsa#ayxej%d90_38!pyk56fh2*5i9bg%&%g6=f'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '84.201.139.93']
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
