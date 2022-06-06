@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework.serializers import (
     EmailField,
@@ -7,9 +6,7 @@ from rest_framework.serializers import (
 )
 from rest_framework.validators import UniqueValidator
 
-from users.models import Follow
-
-User = get_user_model()
+from users.models import User, Follow
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):

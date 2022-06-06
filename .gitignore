@@ -132,4 +132,6 @@ dmypy.json
 .idea
 
 #other
-.vscodeexit
+.vscode
+.media
+.static

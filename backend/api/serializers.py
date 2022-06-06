@@ -38,7 +38,7 @@ class IngredientAmountSerializer(ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=IngredientAmount.objects.all(),
-                fields=['ingredient', 'recipe']
+                fields=('ingredient', 'recipe')
             )
         ]
 
@@ -63,15 +63,19 @@ class RecipeSerializer(ModelSerializer):
 
     def get_is_favorited(self, obj):
         user = self.context.get('request').user
-        if user.is_anonymous:
-            return False
-        return Recipe.objects.filter(favorites__user=user, id=obj.id).exists()
+        return (
+            user.is_authenticated and Recipe.objects.filter(
+                favorites__user=user, id=obj.id
+            ).exists()
+        )
 
     def get_is_in_shopping_cart(self, obj):
         user = self.context.get('request').user
-        if user.is_anonymous:
-            return False
-        return Recipe.objects.filter(cart__user=user, id=obj.id).exists()
+        return (
+            user.is_authenticated and Recipe.objects.filter(
+                cart__user=user, id=obj.id
+            ).exists()
+        )
 
     def validate(self, data):
         ingredients = self.initial_data.get('ingredients')
