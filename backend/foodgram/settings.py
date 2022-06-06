@@ -6,7 +6,7 @@ SECRET_KEY = '(y1n)w=d6oqawsa#ayxej%d90_38!pyk56fh2*5i9bg%&%g6=f'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*', '84.201.139.93']
+ALLOWED_HOSTS = ['*', '51.250.100.231']
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
