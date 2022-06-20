@@ -1,5 +1,5 @@
 # Проект Foodgram - продуктовый помощник
-![example workflow](https://github.com/NIK-TIGER-BILL/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)  
+![example workflow](https://github.com/elvir906/foodgram/actions/workflows/foodgram_workflow.yml/badge.svg)  
   
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
@@ -26,7 +26,7 @@
 ## Запуск проекта
 * Склонировать репозиторий на локальную машину:
 ```
-git clone https://github.com/elvir906/foodgram-project-react.git
+git clone https://github.com/elvir906/foodgram.git
 ```
 ## Для работы с удаленным сервером (на ubuntu):
 * Выполните вход на свой удаленный сервер
